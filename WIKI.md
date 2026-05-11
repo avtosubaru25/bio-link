@@ -211,7 +211,7 @@ npx vercel --prod
 
 После деплоя получишь ссылку вида:
 - Vercel: `https://kazdev-biolink.vercel.app`
-- Netlify: `https://6a0245ffb91f1c649026e8cd--voluble-starship-5f034f.netlify.app` (текущий деплой)
+- Netlify: `https://neyroveles.netlify.app` (текущий деплой - короткий URL)
 
 **Как вставить в Instagram:**
 1. Instagram → профиль → **Редактировать профиль**
