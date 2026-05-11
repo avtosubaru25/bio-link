@@ -1,0 +1,1356 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python Developer | AI боты & Автоматизация</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #00d4ff;
+            --secondary: #7c3aed;
+            --accent: #10b981;
+            --bg-dark: #0a0a0a;
+            --bg-card: rgba(255, 255, 255, 0.03);
+            --text-primary: #ffffff;
+            --text-secondary: #a1a1aa;
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .gradient-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.4;
+            animation: float 20s infinite ease-in-out;
+        }
+
+        .gradient-orb-1 {
+            width: 600px;
+            height: 600px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            top: -200px;
+            right: -200px;
+            animation-delay: 0s;
+        }
+
+        .gradient-orb-2 {
+            width: 500px;
+            height: 500px;
+            background: linear-gradient(135deg, var(--accent), var(--primary));
+            bottom: -150px;
+            left: -150px;
+            animation-delay: -10s;
+        }
+
+        .gradient-orb-3 {
+            width: 400px;
+            height: 400px;
+            background: linear-gradient(135deg, var(--secondary), #ec4899);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation-delay: -5s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -30px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+        }
+
+        /* Grid Pattern Overlay */
+        .grid-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: -1;
+        }
+
+        /* Container */
+        .container {
+            max-width: 680px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header / Profile */
+        .profile-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .avatar-container {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 24px;
+        }
+
+        .avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid transparent;
+            background: linear-gradient(var(--bg-dark), var(--bg-dark)) padding-box,
+                        linear-gradient(135deg, var(--primary), var(--secondary), var(--accent)) border-box;
+        }
+
+        .status-badge {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            width: 24px;
+            height: 24px;
+            background: var(--accent);
+            border-radius: 50%;
+            border: 3px solid var(--bg-dark);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }
+            50% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
+        }
+
+        .name {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, var(--text-primary), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .title {
+            font-size: 18px;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+        }
+
+        .tagline {
+            font-size: 16px;
+            color: var(--text-secondary);
+            max-width: 400px;
+            margin: 0 auto 24px;
+            line-height: 1.6;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-bottom: 32px;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary);
+            font-family: 'Fira Code', monospace;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Social Links */
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 40px;
+        }
+
+        .social-btn {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 20px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .social-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.2);
+        }
+
+        /* Services Section */
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: 14px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title::before {
+            content: '';
+            width: 30px;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), transparent);
+        }
+
+        /* Service Cards */
+        .service-cards {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .service-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(0, 212, 255, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .service-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .service-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+
+        .service-icon {
+            font-size: 32px;
+            line-height: 1;
+        }
+
+        .service-price {
+            font-family: 'Fira Code', monospace;
+            font-size: 14px;
+            color: var(--accent);
+            font-weight: 500;
+        }
+
+        .case-story {
+            font-size: 15px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 18px;
+            padding-left: 14px;
+            border-left: 2px solid rgba(255, 255, 255, 0.1);
+            font-style: italic;
+        }
+
+        .service-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .service-desc {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+
+        .service-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .feature-tag {
+            font-size: 12px;
+            padding: 4px 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            color: var(--text-secondary);
+        }
+
+        /* Portfolio Section */
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+
+        @media (max-width: 480px) {
+            .portfolio-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .portfolio-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .portfolio-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(0, 212, 255, 0.3);
+        }
+
+        .portfolio-img {
+            width: 100%;
+            height: 150px;
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(124, 58, 237, 0.1));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+        }
+
+        .portfolio-content {
+            padding: 16px;
+        }
+
+        .portfolio-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .portfolio-result {
+            font-size: 13px;
+            color: var(--accent);
+        }
+
+        /* Reviews Section */
+        .reviews-scroll {
+            display: flex;
+            gap: 16px;
+            overflow-x: auto;
+            padding-bottom: 16px;
+            scrollbar-width: none;
+        }
+
+        .reviews-scroll::-webkit-scrollbar {
+            display: none;
+        }
+
+        .review-card {
+            flex: 0 0 300px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .review-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .review-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+        .review-info h4 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .review-info span {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .review-text {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            font-style: italic;
+        }
+
+        /* Contact Form */
+        .contact-form {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 32px;
+            backdrop-filter: blur(10px);
+        }
+
+        .form-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .form-subtitle {
+            font-size: 14px;
+            color: var(--text-secondary);
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea {
+            width: 100%;
+            padding: 14px 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: var(--text-primary);
+            font-size: 15px;
+            font-family: inherit;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.1);
+        }
+
+        .form-textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        @media (max-width: 480px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 16px 32px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .submit-btn:hover::before {
+            left: 100%;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 40px 0;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-bottom: 16px;
+        }
+
+        .footer-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+
+        .footer-link:hover {
+            color: var(--primary);
+        }
+
+        /* Quick Actions */
+        .quick-actions {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 100;
+        }
+
+        .quick-btn {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(0, 212, 255, 0.4);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+        }
+
+        .quick-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 30px rgba(0, 212, 255, 0.5);
+        }
+
+        /* Typewriter Effect */
+        .typewriter {
+            font-family: 'Fira Code', monospace;
+            color: var(--accent);
+        }
+
+        /* Responsive */
+        @media (max-width: 640px) {
+            .name {
+                font-size: 24px;
+            }
+            
+            .stats {
+                gap: 24px;
+            }
+            
+            .stat-value {
+                font-size: 22px;
+            }
+        }
+
+        /* Loading Animation */
+        .fade-in {
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .service-card:nth-child(1) { animation-delay: 0.1s; }
+        .service-card:nth-child(2) { animation-delay: 0.2s; }
+        .service-card:nth-child(3) { animation-delay: 0.3s; }
+        .service-card:nth-child(4) { animation-delay: 0.4s; }
+
+        /* Cases Section */
+        .cases-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .case-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 28px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .case-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--primary), var(--secondary));
+            transform: scaleY(0);
+            transform-origin: top;
+            transition: transform 0.3s ease;
+        }
+
+        .case-card:hover {
+            transform: translateX(5px);
+            border-color: rgba(0, 212, 255, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .case-card:hover::before {
+            transform: scaleY(1);
+        }
+
+        .case-card.featured {
+            border-color: rgba(0, 212, 255, 0.4);
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.05), rgba(124, 58, 237, 0.05));
+        }
+
+        .case-card.featured::before {
+            transform: scaleY(1);
+            width: 4px;
+        }
+
+        .case-badge {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            font-size: 11px;
+            font-weight: 600;
+            padding: 6px 12px;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .case-icon {
+            font-size: 40px;
+            margin-bottom: 16px;
+            line-height: 1;
+        }
+
+        .case-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--text-primary);
+        }
+
+        .case-step {
+            padding: 14px 18px;
+            margin-bottom: 10px;
+            border-radius: 12px;
+            font-size: 14px;
+            line-height: 1.65;
+            color: var(--text-secondary);
+            position: relative;
+            padding-left: 56px;
+        }
+
+        .case-step .step-label {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-family: 'Fira Code', monospace;
+            font-size: 11px;
+            font-weight: 600;
+            padding: 4px 8px;
+            border-radius: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            writing-mode: vertical-rl;
+            transform: translateY(-50%) rotate(180deg);
+            text-align: center;
+        }
+
+        .case-before {
+            background: linear-gradient(90deg, rgba(251, 146, 60, 0.08), rgba(251, 146, 60, 0.02));
+            border-left: 3px solid #fb923c;
+        }
+
+        .case-before .step-label {
+            background: rgba(251, 146, 60, 0.15);
+            color: #fb923c;
+        }
+
+        .case-did {
+            background: linear-gradient(90deg, rgba(0, 212, 255, 0.08), rgba(0, 212, 255, 0.02));
+            border-left: 3px solid var(--primary);
+        }
+
+        .case-did .step-label {
+            background: rgba(0, 212, 255, 0.15);
+            color: var(--primary);
+        }
+
+        .case-after {
+            background: linear-gradient(90deg, rgba(16, 185, 129, 0.1), rgba(16, 185, 129, 0.02));
+            border-left: 3px solid var(--accent);
+            margin-bottom: 16px;
+        }
+
+        .case-after .step-label {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--accent);
+        }
+
+        .case-result {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .result-tag {
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            color: var(--primary);
+            font-size: 12px;
+            font-weight: 500;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-family: 'Fira Code', monospace;
+        }
+
+        .case-card.featured .result-tag {
+            background: rgba(0, 212, 255, 0.15);
+            border-color: var(--primary);
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Animation -->
+    <div class="bg-animation">
+        <div class="gradient-orb gradient-orb-1"></div>
+        <div class="gradient-orb gradient-orb-2"></div>
+        <div class="gradient-orb gradient-orb-3"></div>
+    </div>
+    <div class="grid-pattern"></div>
+
+    <div class="container">
+        <!-- Profile Header -->
+        <header class="profile-header fade-in">
+            <div class="avatar-container">
+                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=developer&backgroundColor=b6e3f4" alt="Developer" class="avatar">
+                <div class="status-badge"></div>
+            </div>
+            
+            <h1 class="name">Python-разработчик</h1>
+            <p class="title">🤖 AI-боты • ⚙️ Автоматизация • 💻 Full Stack</p>
+            <p class="tagline">Помогаю бизнесу в Казахстане автоматизировать рутину и зарабатывать больше — Kaspi, Wildberries, Bitrix24, AI-решения</p>
+            
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-value">50+</div>
+                    <div class="stat-label">Проектов</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">1000+</div>
+                    <div class="stat-label">Часов сэкономлено</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">98%</div>
+                    <div class="stat-label">Довольных клиентов</div>
+                </div>
+            </div>
+            
+            <div class="social-links">
+                <a href="#" class="social-btn" title="Telegram">📱</a>
+                <a href="#" class="social-btn" title="GitHub">💻</a>
+                <a href="#" class="social-btn" title="WhatsApp">💬</a>
+                <a href="#" class="social-btn" title="Email">📧</a>
+            </div>
+        </header>
+
+        <!-- Services Section -->
+        <section class="section fade-in">
+            <h2 class="section-title">Услуги</h2>
+            <div class="service-cards">
+                <div class="service-card fade-in">
+                    <div class="service-header">
+                        <span class="service-icon">🤖</span>
+                        <span class="service-price">от 60 000 ₸</span>
+                    </div>
+                    <h3 class="service-title">Telegram-боты для бизнеса</h3>
+                    <p class="service-desc">Боты для продаж, заявок, поддержки клиентов. Интеграция с Kaspi Pay, Bitrix24, CRM, рассылки</p>
+                    <div class="service-features">
+                        <span class="feature-tag">Python</span>
+                        <span class="feature-tag">aiogram</span>
+                        <span class="feature-tag">Kaspi API</span>
+                        <span class="feature-tag">CRM</span>
+                    </div>
+                </div>
+
+                <div class="service-card fade-in">
+                    <div class="service-header">
+                        <span class="service-icon">📱</span>
+                        <span class="service-price">от 90 000 ₸</span>
+                    </div>
+                    <h3 class="service-title">Instagram-автоматизация</h3>
+                    <p class="service-desc">Автопостинг, парсинг аудитории, аналитика, DM боты, рост подписчиков</p>
+                    <div class="service-features">
+                        <span class="feature-tag">Playwright</span>
+                        <span class="feature-tag">Selenium</span>
+                        <span class="feature-tag">AI</span>
+                        <span class="feature-tag">Аналитика</span>
+                    </div>
+                </div>
+
+                <div class="service-card fade-in">
+                    <div class="service-header">
+                        <span class="service-icon">⚙️</span>
+                        <span class="service-price">от 120 000 ₸</span>
+                    </div>
+                    <h3 class="service-title">Бизнес-автоматизация</h3>
+                    <p class="service-desc">Парсинг данных, интеграция сервисов, отчеты, обработка документов, RPA</p>
+                    <div class="service-features">
+                        <span class="feature-tag">Python</span>
+                        <span class="feature-tag">Scrapy</span>
+                        <span class="feature-tag">n8n</span>
+                        <span class="feature-tag">API</span>
+                    </div>
+                </div>
+
+                <div class="service-card fade-in">
+                    <div class="service-header">
+                        <span class="service-icon">🌐</span>
+                        <span class="service-price">от 180 000 ₸</span>
+                    </div>
+                    <h3 class="service-title">Веб-разработка</h3>
+                    <p class="service-desc">Лендинги, админ-панели, API, интеграция с ботами, полный цикл разработки</p>
+                    <div class="service-features">
+                        <span class="feature-tag">React</span>
+                        <span class="feature-tag">Next.js</span>
+                        <span class="feature-tag">FastAPI</span>
+                        <span class="feature-tag">PostgreSQL</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Real Cases Section -->
+        <section class="section fade-in">
+            <h2 class="section-title">Реальные кейсы</h2>
+            <div class="cases-container">
+                <!-- Case 1: Kaspi Monitoring -->
+                <div class="case-card featured">
+                    <div class="case-badge">🔥 Хит</div>
+                    <div class="case-icon">🏪</div>
+                    <div class="case-content">
+                        <h3 class="case-title">Магазин на Kaspi всегда в топе</h3>
+                        <p class="case-story">Магазин электроники из Алматы. Хороший товар, нормальные цены — но продажи падали каждый месяц.</p>
+                        <div class="case-step case-before">
+                            <span class="step-label">Было</span>
+                            Товары теряли позиции в поиске Kaspi, а владелец узнавал об этом только через неделю — когда уже -70% продаж. Менеджер каждое утро проверял 200+ позиций руками. Это 3 часа потерянного времени.
+                        </div>
+                        <div class="case-step case-did">
+                            <span class="step-label">Сделали</span>
+                            Настроили автоматический мониторинг: каждые 2 часа проверяет позиции по 50+ ключевикам. Падение ниже топ-10 — мгновенно в Telegram, с подсказкой что подкрутить (SEO, цена, остатки).
+                        </div>
+                        <div class="case-step case-after">
+                            <span class="step-label">Стало</span>
+                            Магазин держится в топ-3 стабильно. Продажи выросли на 40% за месяц. У менеджера освободились 3 часа в день на реальную работу с клиентами.
+                        </div>
+                        <div class="case-result">
+                            <span class="result-tag">+40% продаж</span>
+                            <span class="result-tag">90 часов/мес свободны</span>
+                            <span class="result-tag">Топ-3 стабильно</span>
+                            <span class="result-tag">Окупилось за 2 недели</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Case 2: Wildberries + Google Sheets -->
+                <div class="case-card featured">
+                    <div class="case-badge">💎 Топ</div>
+                    <div class="case-icon">📦</div>
+                    <div class="case-content">
+                        <h3 class="case-title">Wildberries и Google Таблицы: всё в одном окне</h3>
+                        <p class="case-story">Селлер на Wildberries из Нур-Султана. 1500+ артикулов на 4 складах. Команда из 5 менеджеров просто не успевала.</p>
+                        <div class="case-step case-before">
+                            <span class="step-label">Было</span>
+                            5 менеджеров с утра до вечера копировали остатки, заказы и отзывы из кабинета WB в Google Таблицы. 6 часов работы. И всё равно ошибки — за месяц прилетело штрафов на 240 000 ₸.
+                        </div>
+                        <div class="case-step case-did">
+                            <span class="step-label">Сделали</span>
+                            Подключили официальное API Wildberries к Google Sheets. Остатки, заказы, отзывы, вопросы покупателей — всё обновляется автоматически каждые 15 минут. Сверху построили дашборд с KPI.
+                        </div>
+                        <div class="case-step case-after">
+                            <span class="step-label">Стало</span>
+                            Утром открываешь таблицу — там уже всё свежее. Менеджеры теперь не копипастят, а реально работают с отзывами и оптимизируют карточки. Штрафы прекратились полностью.
+                        </div>
+                        <div class="case-result">
+                            <span class="result-tag">Данные за 2 минуты</span>
+                            <span class="result-tag">−720 000 ₸/мес на ФОТ</span>
+                            <span class="result-tag">0 штрафов</span>
+                            <span class="result-tag">Отзывы за 15 мин</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Case 3: Bitrix24 Production Time Tracking -->
+                <div class="case-card">
+                    <div class="case-icon">🏭</div>
+                    <div class="case-content">
+                        <h3 class="case-title">Bitrix24 на производстве: учёт времени по кайдзен</h3>
+                        <p class="case-story">Мебельное производство в Караганде. 80+ рабочих, сменный график, ручной учёт в Excel.</p>
+                        <div class="case-step case-before">
+                            <span class="step-label">Было</span>
+                            Сменный мастер записывал кто и сколько работал в тетрадь, потом перебивал в Excel. 40% рабочего времени уходило куда-то в воздух — перекуры, простои, переключения. Внедрить кайдзен невозможно — нет точных данных.
+                        </div>
+                        <div class="case-step case-did">
+                            <span class="step-label">Сделали</span>
+                            На каждом участке поставили планшет. Рабочий прикладывает бейдж — выбирает задачу — нажимает "Начать". Bitrix24 сам считает время, формирует отчёты по сменам и KPI. ИИ подсвечивает где теряется время больше всего — это и есть точки для кайдзен.
+                        </div>
+                        <div class="case-step case-after">
+                            <span class="step-label">Стало</span>
+                            Производительность выросла на 35% за квартал — без увеличения штата. Простои упали с 40% до 5%. Мастера теперь обсуждают конкретные цифры, а не "кажется, Серик опять курил".
+                        </div>
+                        <div class="case-result">
+                            <span class="result-tag">+35% производительность</span>
+                            <span class="result-tag">Простой 40% → 5%</span>
+                            <span class="result-tag">−14 млн ₸/год потерь</span>
+                            <span class="result-tag">Учёт точный на 99.8%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Case 4: Android AI Assistant for Cosmetics -->
+                <div class="case-card">
+                    <div class="case-icon">💄</div>
+                    <div class="case-content">
+                        <h3 class="case-title">Android-приложение: AI-консультант косметики</h3>
+                        <p class="case-story">Онлайн-магазин корейской косметики. Огромный ассортимент — и большинство девушек просто терялись.</p>
+                        <div class="case-step case-before">
+                            <span class="step-label">Было</span>
+                            70% покупательниц не понимали что им подходит. Заказывали наугад → 25% возвратов. Один консультант разрывался между 200 заявками в день в WhatsApp и Instagram. Терялась выручка примерно на 3 млн ₸ ежемесячно.
+                        </div>
+                        <div class="case-step case-did">
+                            <span class="step-label">Сделали</span>
+                            Сделали Android-приложение. Девушка фотографирует лицо, отвечает на 5 коротких вопросов (тип кожи, что беспокоит, бюджет). ИИ анализирует и собирает персональную рутину: очищение → тоник → сыворотка → крем. С прямой кнопкой "купить".
+                        </div>
+                        <div class="case-step case-after">
+                            <span class="step-label">Стало</span>
+                            Подбор за 2 минуты вместо 20-минутной переписки. Возвраты упали до 5% — потому что подобрано точно. Средний чек вырос на 40% — клиентки берут полную рутину, а не один продукт.
+                        </div>
+                        <div class="case-result">
+                            <span class="result-tag">Точность подбора 80%</span>
+                            <span class="result-tag">Возвраты 25% → 5%</span>
+                            <span class="result-tag">+40% средний чек</span>
+                            <span class="result-tag">2 минуты вместо 20</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Case 5: Meeting Summarization AI -->
+                <div class="case-card">
+                    <div class="case-icon">🎙️</div>
+                    <div class="case-content">
+                        <h3 class="case-title">AI-секретарь: протокол совещания за 5 минут</h3>
+                        <p class="case-story">Строительная компания. Еженедельные планёрки руководства по 3 часа — и каждый раз новый круг.</p>
+                        <div class="case-step case-before">
+                            <span class="step-label">Было</span>
+                            После трёхчасового совещания секретарь ещё 4 часа расшифровывала запись и писала протокол. К следующей планёрке выяснялось: 30% решений никто не выполнил, потому что "я не помню что обещал", "не было в протоколе". Контроля задач не было вообще.
+                        </div>
+                        <div class="case-step case-did">
+                            <span class="step-label">Сделали</span>
+                            Приложение записывает совещание, распознаёт речь (Whisper), ИИ выделяет: краткое резюме на 1 страницу, все принятые решения, поставленные задачи с ответственными и сроками. Всё автоматически отправляется в Bitrix24 — каждая задача с напоминанием.
+                        </div>
+                        <div class="case-step case-after">
+                            <span class="step-label">Стало</span>
+                            Протокол готов через 5 минут после совещания. Каждый понимает что должен сделать и к какому числу. Исполнение решений — практически 100%. Совещания стали короче, потому что теперь там не повторяют прошлый раз, а реально двигают дела.
+                        </div>
+                        <div class="case-result">
+                            <span class="result-tag">Протокол за 5 минут</span>
+                            <span class="result-tag">100% решений фиксируется</span>
+                            <span class="result-tag">Контроль задач онлайн</span>
+                            <span class="result-tag">60 часов/мес секретаря</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Case 6: Price Monitoring -->
+                <div class="case-card">
+                    <div class="case-icon">💰</div>
+                    <div class="case-content">
+                        <h3 class="case-title">Автопрайсинг: всегда конкурентная цена</h3>
+                        <p class="case-story">Магазин электроники и гаджетов. Жёсткая конкуренция, минимальная маржа, частые акции.</p>
+                        <div class="case-step case-before">
+                            <span class="step-label">Было</span>
+                            Конкуренты меняли цены 5-10 раз в день — а владелец узнавал об этом раз в неделю. Цена выше рынка — продаж нет. Цена ниже — продаём в минус. Маржа таяла на глазах.
+                        </div>
+                        <div class="case-step case-did">
+                            <span class="step-label">Сделали</span>
+                            Бот раз в час обходит 50+ конкурентов и собирает цены. ИИ учитывает динамику, остатки, сезонность и считает оптимальную цену — с защитой минимальной маржи. Может менять цены автоматически или присылать рекомендации в Telegram.
+                        </div>
+                        <div class="case-step case-after">
+                            <span class="step-label">Стало</span>
+                            Цены всегда в рынке — клиенты идут. Минимальная маржа защищена — не работаем в минус. За год получили дополнительно ~7 млн ₸ прибыли, не вложив ни тенге в рекламу.
+                        </div>
+                        <div class="case-result">
+                            <span class="result-tag">Реакция за 1 час</span>
+                            <span class="result-tag">+25% маржа</span>
+                            <span class="result-tag">Всегда в рынке</span>
+                            <span class="result-tag">+7 млн ₸/год прибыли</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Case 7: Auto-posting -->
+                <div class="case-card">
+                    <div class="case-icon">🤖</div>
+                    <div class="case-content">
+                        <h3 class="case-title">SMM-агентство: 15 аккаунтов → 1 менеджер</h3>
+                        <p class="case-story">SMM-агентство из Алматы. 15 клиентов, команда из 3 SMM-щиков, постоянное выгорание.</p>
+                        <div class="case-step case-before">
+                            <span class="step-label">Было</span>
+                            Каждый SMM-щик тратил 4 часа в день на ручной постинг — закинуть фото, написать описание, проставить хештеги, ответить на комменты. Ошибки в текстах, пропущенные публикации, недовольные клиенты. Команда выгорала.
+                        </div>
+                        <div class="case-step case-did">
+                            <span class="step-label">Сделали</span>
+                            Систему планирования контента: загружаешь пачку постов на месяц, расставляешь даты и время. Дальше система сама публикует, отвечает на типовые комменты, собирает аналитику. Менеджер только контролирует через дашборд.
+                        </div>
+                        <div class="case-step case-after">
+                            <span class="step-label">Стало</span>
+                            Один менеджер ведёт 15 аккаунтов вместо троих. SMM-щики занимаются креативом и стратегией, а не копипастом. Клиенты получают еженедельные авто-отчёты — рады. Освободившиеся 360 часов в месяц направили на привлечение новых клиентов.
+                        </div>
+                        <div class="case-result">
+                            <span class="result-tag">15 аккаунтов на 1 человека</span>
+                            <span class="result-tag">360 часов/мес свободны</span>
+                            <span class="result-tag">Авто-отчёты клиентам</span>
+                            <span class="result-tag">−600 000 ₸/мес на ФОТ</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Case 8: Lead Generation -->
+                <div class="case-card">
+                    <div class="case-icon">🎯</div>
+                    <div class="case-content">
+                        <h3 class="case-title">Лиды из Instagram прямо в Telegram</h3>
+                        <p class="case-story">B2B-сервис. Менеджер целыми днями искал клиентов вручную — больше похоже на спам, чем на продажи.</p>
+                        <div class="case-step case-before">
+                            <span class="step-label">Было</span>
+                            Менеджер отправлял 100+ сообщений в день целевой аудитории. 90% игнор, 8% отписки, 2% слабые ответы. На один качественный лид уходило 2 часа времени и нервов. Стоимость лида — около 12 000 ₸.
+                        </div>
+                        <div class="case-step case-did">
+                            <span class="step-label">Сделали</span>
+                            ИИ ищет аудиторию по хештегам и гео, смотрит активность профиля, открытые контакты — отсеивает ботов и нецелевых. Пишет персонализированные сообщения (упоминая конкретику профиля). Только живые ответы попадают менеджеру в Telegram.
+                        </div>
+                        <div class="case-step case-after">
+                            <span class="step-label">Стало</span>
+                            Менеджер открывает Telegram — там уже 50 горячих лидов, которые сами ответили. Конверсия в ответ выросла с 5% до 35%. Стоимость лида упала до 1 200 ₸. Команда наконец занимается продажами, а не первым контактом.
+                        </div>
+                        <div class="case-result">
+                            <span class="result-tag">50 лидов/день</span>
+                            <span class="result-tag">Ответ 35% (было 5%)</span>
+                            <span class="result-tag">5 мин на лид</span>
+                            <span class="result-tag">Лид 1 200 ₸ (было 12 000)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Reviews Section -->
+        <section class="section fade-in">
+            <h2 class="section-title">Отзывы клиентов</h2>
+            <div class="reviews-scroll">
+                <div class="review-card">
+                    <div class="review-header">
+                        <div class="review-avatar">А</div>
+                        <div class="review-info">
+                            <h4>Александр</h4>
+                            <span>Интернет-магазин</span>
+                        </div>
+                    </div>
+                    <p class="review-text">"Бот полностью заменил менеджера. Заказы обрабатываются автоматически 24/7. Окупился за 2 недели!"</p>
+                </div>
+                <div class="review-card">
+                    <div class="review-header">
+                        <div class="review-avatar">М</div>
+                        <div class="review-info">
+                            <h4>Марина</h4>
+                            <span>SMM агентство</span>
+                        </div>
+                    </div>
+                    <p class="review-text">"Автоматизация Instagram сэкономила нам 30 часов в неделю. Теперь клиенты получают отчеты мгновенно."</p>
+                </div>
+                <div class="review-card">
+                    <div class="review-header">
+                        <div class="review-avatar">Д</div>
+                        <div class="review-info">
+                            <h4>Дмитрий</h4>
+                            <span>Логистика</span>
+                        </div>
+                    </div>
+                    <p class="review-text">"Парсинг конкурентов теперь работает сам. Получаем актуальные цены каждый час без ручной работы."</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Form -->
+        <section class="section fade-in">
+            <div class="contact-form">
+                <h2 class="form-title">Обсудим ваш проект</h2>
+                <p class="form-subtitle">Опишите задачу — отвечу в течение 2 часов с оценкой сроков и стоимости. Бесплатно, без обязательств.</p>
+                
+                <form id="contactForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Имя</label>
+                            <input type="text" class="form-input" placeholder="Ваше имя" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Telegram или WhatsApp</label>
+                            <input type="text" class="form-input" placeholder="@username или номер" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Тип проекта</label>
+                        <select class="form-select" required>
+                            <option value="">Выберите услугу</option>
+                            <option value="telegram">Telegram бот</option>
+                            <option value="instagram">Instagram автоматизация</option>
+                            <option value="automation">Бизнес-автоматизация</option>
+                            <option value="web">Веб-разработка</option>
+                            <option value="other">Другое</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Описание задачи</label>
+                        <textarea class="form-textarea" placeholder="Что нужно сделать? Какая цель? Есть ли примеры?" required></textarea>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Бюджет (примерно)</label>
+                            <select class="form-select">
+                                <option value="">Указать бюджет</option>
+                                <option value="60-150">60 000 — 150 000 ₸</option>
+                                <option value="150-300">150 000 — 300 000 ₸</option>
+                                <option value="300-600">300 000 — 600 000 ₸</option>
+                                <option value="600+">600 000 ₸ +</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Сроки</label>
+                            <select class="form-select">
+                                <option value="">Когда нужно?</option>
+                                <option value="asap">Срочно (3-5 дней)</option>
+                                <option value="week">1 неделя</option>
+                                <option value="2weeks">2 недели</option>
+                                <option value="month">1 месяц</option>
+                                <option value="flexible">Гибкие сроки</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">Отправить заявку →</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-links">
+                <a href="#" class="footer-link">Telegram</a>
+                <a href="#" class="footer-link">GitHub</a>
+                <a href="#" class="footer-link">Политика конфиденциальности</a>
+            </div>
+            <p>© 2026 Python Developer. Автоматизирую ваш бизнес.</p>
+        </footer>
+    </div>
+
+    <!-- Quick Action Buttons -->
+    <div class="quick-actions">
+        <a href="#" class="quick-btn" title="Написать в Telegram">📱</a>
+    </div>
+
+    <script>
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Form submission
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const formData = new FormData(this);
+            
+            // Here you would normally send data to server
+            // For now, show success message
+            alert('Спасибо за заявку! Я свяжусь с вами в течение 2 часов в Telegram/WhatsApp.');
+            
+            // Reset form
+            this.reset();
+        });
+
+        // Intersection Observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+
+        // Typewriter effect for stats
+        function animateValue(element, start, end, duration) {
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                element.innerHTML = Math.floor(progress * (end - start) + start) + (element.innerHTML.includes('%') ? '%' : '+');
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                }
+            };
+            window.requestAnimationFrame(step);
+        }
+
+        // Animate stats on load
+        window.addEventListener('load', () => {
+            document.querySelectorAll('.stat-value').forEach(stat => {
+                const value = parseInt(stat.innerHTML);
+                animateValue(stat, 0, value, 2000);
+            });
+        });
+    </script>
+</body>
+</html>
