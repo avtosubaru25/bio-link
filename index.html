@@ -3,10 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Python Developer | AI боты & Автоматизация</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <title>AI Architect | Automation Expert</title>
     <style>
         * {
             margin: 0;
@@ -26,11 +23,11 @@
         }
 
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: var(--bg-dark);
             color: var(--text-primary);
+            line-height: 1.6;
             min-height: 100vh;
-            overflow-x: hidden;
         }
 
         /* Animated Background */
@@ -42,6 +39,7 @@
             height: 100%;
             z-index: -1;
             overflow: hidden;
+            display: none; /* Отключаем анимации для быстрой загрузки */
         }
 
         .gradient-orb {
@@ -93,10 +91,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: 
-                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
-            background-size: 50px 50px;
+            background: var(--bg-primary);
             z-index: -1;
         }
 
@@ -187,7 +182,7 @@
             font-size: 28px;
             font-weight: 700;
             color: var(--primary);
-            font-family: 'Fira Code', monospace;
+            font-family: 'Courier New', monospace;
         }
 
         .stat-label {
@@ -305,7 +300,7 @@
         }
 
         .service-price {
-            font-family: 'Fira Code', monospace;
+            font-family: 'Courier New', monospace;
             font-size: 14px;
             color: var(--accent);
             font-weight: 500;
@@ -631,7 +626,7 @@
 
         /* Typewriter Effect */
         .typewriter {
-            font-family: 'Fira Code', monospace;
+            font-family: 'Courier New', monospace;
             color: var(--accent);
         }
 
@@ -650,26 +645,10 @@
             }
         }
 
-        /* Loading Animation */
+        /* Loading Animation - disabled for mobile speed */
         .fade-in {
-            animation: fadeIn 0.8s ease-out;
+            /* animation disabled */
         }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .service-card:nth-child(1) { animation-delay: 0.1s; }
-        .service-card:nth-child(2) { animation-delay: 0.2s; }
-        .service-card:nth-child(3) { animation-delay: 0.3s; }
-        .service-card:nth-child(4) { animation-delay: 0.4s; }
 
         /* Cases Section */
         .cases-container {
@@ -765,7 +744,7 @@
             left: 14px;
             top: 50%;
             transform: translateY(-50%);
-            font-family: 'Fira Code', monospace;
+            font-family: 'Courier New', monospace;
             font-size: 11px;
             font-weight: 600;
             padding: 4px 8px;
@@ -822,7 +801,7 @@
             font-weight: 500;
             padding: 6px 12px;
             border-radius: 20px;
-            font-family: 'Fira Code', monospace;
+            font-family: 'Courier New', monospace;
         }
 
         .case-card.featured .result-tag {
@@ -848,9 +827,9 @@
                 <div class="status-badge"></div>
             </div>
             
-            <h1 class="name">Python-разработчик</h1>
-            <p class="title">🤖 AI-боты • ⚙️ Автоматизация • 💻 Full Stack</p>
-            <p class="tagline">Помогаю бизнесу в Казахстане автоматизировать рутину и зарабатывать больше — Kaspi, Wildberries, Bitrix24, AI-решения</p>
+            <h1 class="name">AI Architect & Automation Expert</h1>
+            <p class="title">🤖 AI-системы • ⚙️ Бизнес-автоматизация • 💻 Full Stack • 🚀 Scalable Solutions</p>
+            <p class="tagline">Строю умные системы для бизнеса в Казахстане — от AI-ботов до комплексной автоматизации. Kaspi, Wildberries, Bitrix24, Enterprise-решения</p>
             
             <div class="stats">
                 <div class="stat">
